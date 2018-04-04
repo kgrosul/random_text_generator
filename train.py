@@ -1,6 +1,8 @@
 import sys
 import argparse
 import os
+import pickle
+import re
 
 
 def file_train(main_dict, input_file, lowercase):
@@ -9,16 +11,10 @@ def file_train(main_dict, input_file, lowercase):
         text_file = open(input_file, 'r')
 
     for line in text_file:
-        line = line.rstrip()
-        clean_line = ""
-        for element in line:
-            if element.isalpha() or element == " ":
-                clean_line += element
-
         if lowercase:
-            clean_line = clean_line.lower()
+            line = line.lower()
 
-        words = clean_line.split()
+        words = re.findall(r'\w+', line)
         for i in range(len(words) - 1):
             word = words[i]
             next_word = words[i+1]
@@ -43,20 +39,19 @@ def train(input_dir, model_file, lowercase=False):
                 input_file = input_dir + "/" + str(file)
                 file_train(main_dict, input_file, lowercase)
 
-    with open(model_file, 'w') as output:
-        for word1 in main_dict.keys():
-            for word2 in main_dict[word1].keys():
-                cur_str = word1 + "\t" + word2 + "\t" + \
-                          str(main_dict[word1][word2]) + "\n"
-                output.write(cur_str)
+    with open(model_file, 'wb') as output:
+        pickle.dump(main_dict, output)
 
 
 parser = argparse.ArgumentParser(description=
                                  "Build model for generate.py using your text. "
                                  "You can set input file, file name for the model and "
                                  "should the text be lowercase or not")
+
+required = parser.add_argument_group('required arguments')
+
 parser.add_argument("--input-dir", type=str, default=None, help="path to the input directory")
-parser.add_argument("--model", type=str, help="path to to the model file")
+required.add_argument("--model", type=str, help="path to to the model file",required=True)
 parser.add_argument("--lc", action='store_true', default=False, help="converting text to the lower case")
 args = parser.parse_args()
 

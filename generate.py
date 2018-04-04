@@ -1,27 +1,15 @@
 import sys
 import random
 import argparse
-
-
-def get_dict(file_name):
-    main_dict = dict()
-    with open(file_name, 'r') as file:
-        for line in file:
-            word1, word2, frequency = line.rstrip().split()
-            if word1 not in main_dict.keys():
-                main_dict[word1] = dict()
-            if word2 not in main_dict[word1].keys():
-                main_dict[word1][word2] = 1
-            else:
-                main_dict[word1][word2] += 1
-    return main_dict
+import pickle
 
 
 def generate(model_file, seed, length, output_file):
     output = sys.stdout
     if output_file is not None:
-        output = open(output_file, 'r')
-    model_dict = get_dict(model_file)
+        output = open(output_file, 'w')
+    with open(model_file,'rb') as model:
+        model_dict = pickle.load(model)
     prev_word = ""
     text = ""
     if seed is not None:
@@ -46,9 +34,12 @@ parser = argparse.ArgumentParser(description=
                                  "Generates texts using model made by train.py.\t"
                                  "You can set length of the text, file contains model, "
                                  "output file and the the first word.")
-parser.add_argument("--model", type=str, help="path to the model")
+
+required = parser.add_argument_group('required arguments')
+
+required.add_argument("--model", type=str, help="path to the model", required=True)
 parser.add_argument("--seed", type=str, default=None, help="the first word")
-parser.add_argument("--length", type=int, help="length of the text")
+required.add_argument("--length", type=int, help="length of the text", required=True)
 parser.add_argument("--output", type=str, default=None, help="output file")
 args = parser.parse_args()
 generate(args.model, args.seed, args.length, args.output)
