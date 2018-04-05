@@ -27,7 +27,7 @@ def generate(model_file, seed, length, output_file):
         for element in model_dict.keys():
             if element[0] == seed:
                 first_words += [element]
-    else:
+    if len(first_words) == 0:
         first_words = list(model_dict.keys())
 
     cur_words = random.choice(first_words)
