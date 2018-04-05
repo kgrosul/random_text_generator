@@ -9,7 +9,7 @@ def wiki_train(model_file, texts_num, words_num, lowercase=False):
 
     :param model_file: файл для хранения модели
     :param texts_num: количество текстов
-    :param words_num: длинна н-грамма - 1
+    :param words_num: количество слов, на основании которых выбирается следующее
     :param lowercase: приводить ли к lowercase
 
     Функция строит модель используя texts_num(количество) случайно
