@@ -47,7 +47,7 @@ def generate(model_file, seed, length, output_file):
                 tmp_words += [key]
                 tmp_p += [model_dict[cur_words][key]]
 
-            cur_words = cur_words[1:] + (numpy.random.choice(tmp_words,p=tmp_p),)
+            cur_words = cur_words[1:] + (numpy.random.choice(tmp_words, p=tmp_p),)
         text += cur_words[-1] + ' '
     output.write(text)
     output.close()
