@@ -19,7 +19,6 @@ def file_train(main_dict, input_file, word_num, lowercase):
     <слово1><слово2>...<cловоN> для каждого слова, следующего
     за подстрокой считается число раз, которое оно встречается
     и добавляется в модель.
-
     """
 
     text_file = sys.stdin
@@ -64,7 +63,6 @@ def train(input_dir, model_file, words_num, lowercase=False):
     значение - количество вхождений в данный текст.
     В конце модель записывается в заданный файл с помощью
     модулюя pickle
-
     """
 
     main_dict = dict()
@@ -75,6 +73,13 @@ def train(input_dir, model_file, words_num, lowercase=False):
             if file.endswith(".txt"):
                 input_file = input_dir + "/" + str(file)
                 file_train(main_dict, input_file, words_num, lowercase)
+
+    for key1 in main_dict.keys():
+        tmp_sum = 0
+        for key2 in main_dict[key1].keys():
+            tmp_sum += main_dict[key1][key2]
+        for key2 in main_dict[key1].keys():
+            main_dict[key1][key2] /= tmp_sum
 
     with open(model_file, 'wb') as output:
         pickle.dump(main_dict, output)

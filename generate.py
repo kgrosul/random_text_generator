@@ -2,6 +2,7 @@ import sys
 import random
 import argparse
 import pickle
+import numpy
 
 
 def generate(model_file, seed, length, output_file):
@@ -11,7 +12,6 @@ def generate(model_file, seed, length, output_file):
     :param seed: первое слово
     :param length: длина текста
     :param output_file: файл, куда осуществляется запись текста
-
     функция получает модель, построенную train.py или wikitrain.py и
     на основе ее строит текст.
     """
@@ -27,7 +27,7 @@ def generate(model_file, seed, length, output_file):
         for element in model_dict.keys():
             if element[0] == seed:
                 first_words += [element]
-    else:
+    if len(first_words) == 0:
         first_words = list(model_dict.keys())
 
     cur_words = random.choice(first_words)
@@ -41,11 +41,13 @@ def generate(model_file, seed, length, output_file):
             """
             cur_words = random.choice(list(model_dict.keys()))
         else:
-            tmp_list = []
+            tmp_words = []
+            tmp_p = []
             for key in model_dict[cur_words].keys():
-                tmp_list += [key]*model_dict[cur_words][key]
+                tmp_words += [key]
+                tmp_p += [model_dict[cur_words][key]]
 
-            cur_words = cur_words[1:] + (random.choice(tmp_list),)
+            cur_words = cur_words[1:] + (numpy.random.choice(tmp_words,p=tmp_p),)
         text += cur_words[-1] + ' '
     output.write(text)
     output.close()
