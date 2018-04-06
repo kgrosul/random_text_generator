@@ -3,13 +3,27 @@ import argparse
 import os
 import pickle
 import re
+import collections
+
+
+def defaultdict_to_dict(main_dict):
+    for key in main_dict:
+        main_dict[key] = dict(main_dict[key])
+    return dict(main_dict)
+
+
+def normalize(main_dict):
+    for key1 in main_dict.keys():
+        tmp_sum = sum(main_dict[key1].values())
+        for key2 in main_dict[key1].keys():
+            main_dict[key1][key2] /= tmp_sum
 
 
 def file_train(main_dict, input_file, words_num, lowercase):
     """
     :param main_dict: словарь, содержащий модели
     :param input_file: файл с текстом
-    :param words_num: количество слов, на основании которых выбирается следующее
+    :param words_num: длина н-грамма - 1
     :param lowercase: надо ли приводить к lowercase
 
     Функция посстрочно считывает текст из заданного файла.
@@ -37,13 +51,7 @@ def file_train(main_dict, input_file, words_num, lowercase):
             if len(words_list) < words_num:
                 continue
             words_tuple = tuple(words_list)
-            if words_tuple not in main_dict.keys():
-                main_dict[words_tuple] = dict()
-
-            if next_word not in main_dict[words_tuple]:
-                main_dict[words_tuple][next_word] = 1
-            else:
-                main_dict[words_tuple][next_word] += 1
+            main_dict[words_tuple][next_word] += 1
             words_list.pop(0)
 
     text_file.close()
@@ -53,7 +61,7 @@ def train(input_dir, model_file, words_num, lowercase=False):
     """
     :param input_dir: директория, где лежат тексты
     :param model_file: файл, где хранится модель
-    :param words_num: количество слов, на основании которых выбирается следующее
+    :param words_num: длина н-грамма - 1
     :param lowercase: приводить ли к lowercase
 
     Для каждого файла в заданной директории вызывается функция
@@ -65,7 +73,9 @@ def train(input_dir, model_file, words_num, lowercase=False):
     модулюя pickle
     """
 
-    main_dict = dict()
+    main_dict = collections.defaultdict(
+        lambda: collections.defaultdict(lambda: 0))
+
     if input_dir is None:
         file_train(main_dict, input_dir, words_num, lowercase)
     else:
@@ -74,12 +84,8 @@ def train(input_dir, model_file, words_num, lowercase=False):
                 input_file = input_dir + "/" + str(file)
                 file_train(main_dict, input_file, words_num, lowercase)
 
-    for key1 in main_dict.keys():
-        tmp_sum = 0
-        for key2 in main_dict[key1].keys():
-            tmp_sum += main_dict[key1][key2]
-        for key2 in main_dict[key1].keys():
-            main_dict[key1][key2] /= tmp_sum
+    normalize(main_dict)
+    main_dict = defaultdict_to_dict(main_dict)
 
     with open(model_file, 'wb') as output:
         pickle.dump(main_dict, output)
