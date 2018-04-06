@@ -4,6 +4,8 @@ import argparse
 import pickle
 import numpy
 
+MAX_WORDS_NUM = 1000  # константа, отвечающая за макс. кол-во слов в памяти
+
 
 def generate(model_file, seed, length, output_file):
 
@@ -49,6 +51,13 @@ def generate(model_file, seed, length, output_file):
 
             cur_words = cur_words[1:] + (numpy.random.choice(tmp_words, p=tmp_p),)
         text += cur_words[-1] + ' '
+        if (i + 1) % MAX_WORDS_NUM == 0:
+            """
+            Если в переменной text уже достаточно много слов(а именно MAX_WORDS_NUM),
+            выведем их в файл, а значение text обнулим
+            """
+            output.write(text)
+            text = ''
     output.write(text)
     output.close()
 
