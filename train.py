@@ -13,6 +13,7 @@ def defaultdict_to_dict(main_dict):
 
 
 def normalize(main_dict):
+    """нормируем вероятности в словаре"""
     for key1 in main_dict.keys():
         tmp_sum = sum(main_dict[key1].values())
         for key2 in main_dict[key1].keys():
