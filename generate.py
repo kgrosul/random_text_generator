@@ -4,6 +4,7 @@ import argparse
 import pickle
 import numpy
 
+
 MAX_WORDS_NUM = 1000  # константа, отвечающая за макс. кол-во слов в памяти
 
 
