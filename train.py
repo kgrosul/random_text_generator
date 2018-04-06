@@ -23,7 +23,7 @@ def file_train(main_dict, input_file, words_num, lowercase):
     """
     :param main_dict: словарь, содержащий модели
     :param input_file: файл с текстом
-    :param words_num: длина н-грамма - 1
+    :param words_num: количество слов, на основании которых выбирается следующее
     :param lowercase: надо ли приводить к lowercase
 
     Функция посстрочно считывает текст из заданного файла.
@@ -61,7 +61,7 @@ def train(input_dir, model_file, words_num, lowercase=False):
     """
     :param input_dir: директория, где лежат тексты
     :param model_file: файл, где хранится модель
-    :param words_num: длина н-грамма - 1
+    :param words_num: количество слов, на основании которых выбирается следующее
     :param lowercase: приводить ли к lowercase
 
     Для каждого файла в заданной директории вызывается функция
