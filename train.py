@@ -6,14 +6,7 @@ import re
 import collections
 
 
-def defaultdict_to_dict(main_dict):
-    for key in main_dict:
-        main_dict[key] = dict(main_dict[key])
-    return dict(main_dict)
-
-
 def normalize(main_dict):
-    """нормируем вероятности в словаре"""
     for key1 in main_dict.keys():
         tmp_sum = sum(main_dict[key1].values())
         for key2 in main_dict[key1].keys():
@@ -74,8 +67,7 @@ def train(input_dir, model_file, words_num, lowercase=False):
     модулюя pickle
     """
 
-    main_dict = collections.defaultdict(
-        lambda: collections.defaultdict(lambda: 0))
+    main_dict = collections.defaultdict(lambda: collections.defaultdict(int))
 
     if input_dir is None:
         file_train(main_dict, input_dir, words_num, lowercase)
@@ -86,10 +78,9 @@ def train(input_dir, model_file, words_num, lowercase=False):
                 file_train(main_dict, input_file, words_num, lowercase)
 
     normalize(main_dict)
-    main_dict = defaultdict_to_dict(main_dict)
 
     with open(model_file, 'wb') as output:
-        pickle.dump(main_dict, output)
+        pickle.dump(dict(main_dict), output)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=
