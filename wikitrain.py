@@ -1,7 +1,6 @@
 import wikipedia
 from train import file_train
 from train import normalize
-from train import defaultdict_to_dict
 import argparse
 import pickle
 import collections
@@ -26,13 +25,12 @@ def wiki_train(model_file, texts_num, words_num, lowercase=False):
         file.write(wikipedia.page(wikipedia.search(wikipedia.random())[-1]).content)
     file.close()
     main_dict = collections.defaultdict(
-        lambda: collections.defaultdict(lambda: 0))
+        lambda: collections.defaultdict(int))
     file_train(main_dict, model_file, words_num, lowercase)
     normalize(main_dict)
-    main_dict = defaultdict_to_dict(main_dict)
 
     with open(model_file, 'wb') as output:
-        pickle.dump(main_dict, output)
+        pickle.dump(dict(main_dict), output)
 
 
 if __name__ == '__main__':
