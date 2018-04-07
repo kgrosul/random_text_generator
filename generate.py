@@ -11,12 +11,14 @@ MAX_WORDS_NUM = 1000  # константа, отвечающая за макс. 
 def generate(model_file, seed, length, output_file):
 
     """
-    :param model_file: файл, где хранится модель
-    :param seed: первое слово
-    :param length: длина текста
-    :param output_file: файл, куда осуществляется запись текста
     функция получает модель, построенную train.py или wikitrain.py и
     на основе ее строит текст.
+
+    model_file: путь к модели
+    seed: первое слово
+    length: длина текста
+    output_file: путь к файлу, в который осуществляется запись текста
+
     """
     output = sys.stdout
     if output_file is not None:
@@ -67,6 +69,7 @@ def generate(model_file, seed, length, output_file):
 
 
 if __name__ == '__main__':
+    help(generate)
     parser = argparse.ArgumentParser(
         description="Generates texts using model made by train.py."
                     "You can set length of the text, file contains model, "

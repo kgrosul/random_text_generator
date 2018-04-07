@@ -7,7 +7,7 @@ import collections
 
 
 def normalize(main_dict):
-    """нормируем вероятности в словаре"""
+    """нормируем вероятности в словаре main_dict"""
     for key1 in main_dict.keys():
         tmp_sum = sum(main_dict[key1].values())
         for key2 in main_dict[key1].keys():
@@ -17,12 +17,6 @@ def normalize(main_dict):
 
 def file_train(main_dict, input_file, words_num, lowercase):
     """
-    :param main_dict: словарь, содержащий модели
-    :param input_file: файл с текстом
-    :param words_num: количество слов,
-                    на основании которых выбирается следующее
-    :param lowercase: надо ли приводить к lowercase
-
     Функция построчно считывает текст из заданного файла.
     Каждая строка разбивается при необходимосто приводится
     к lowercase, затем разбивается на слова, состоящие только
@@ -30,6 +24,15 @@ def file_train(main_dict, input_file, words_num, lowercase):
     <слово1><слово2>...<cловоN> для каждого слова, следующего
     за подстрокой считается число раз, которое оно встречается
     и добавляется в модель.
+
+    file_train(main_dict, input_file, words_num, lowercase)
+
+    main_dict: словарь, содержащий модели
+    input_file: файл с текстом
+    words_num: количество слов,
+                    на основании которых выбирается следующее
+    lowercase: надо ли приводить к lowercase
+
     """
 
     text_file = sys.stdin
@@ -56,12 +59,6 @@ def file_train(main_dict, input_file, words_num, lowercase):
 
 def train(input_dir, model_file, words_num, lowercase=False):
     """
-    :param input_dir: директория, где лежат тексты
-    :param model_file: файл, где хранится модель
-    :param words_num: количество слов,
-                    на основании которых выбирается следующее
-    :param lowercase: приводить ли к lowercase
-
     Для каждого файла в заданной директории вызывается функция
     file_train, которая дополняет модель.
     Модель представляется в виде словаря словарей, где первый
@@ -69,6 +66,15 @@ def train(input_dir, model_file, words_num, lowercase=False):
     значение - количество вхождений в данный текст.
     В конце модель записывается в заданный файл с помощью
     модулюя pickle
+
+    train(input_dir, model_file, words_num, lowercase=False)
+
+    input_dir: директория, где лежат тексты
+    model_file: файл, где хранится модель
+    words_num: количество слов,
+                    на основании которых выбирается следующее
+    lowercase: приводить ли к lowercase, default = False
+
     """
 
     main_dict = collections.defaultdict(lambda: collections.defaultdict(int))

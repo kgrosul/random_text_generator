@@ -9,15 +9,17 @@ import collections
 def wiki_train(model_file, texts_num, words_num, lowercase=False):
     """
 
-    :param model_file: файл для хранения модели
-    :param texts_num: количество текстов
-    :param words_num: количество слов, на основании которых
-                    выбирается следующее
-    :param lowercase: приводить ли к lowercase
-
     Функция строит модель используя texts_num(количество) случайно
     найденных в Википедии текстом. Для доступа к Википедии используется
     модуль wikipedia.
+
+    wiki_train(model_file, texts_num, words_num, lowercase=False)
+
+    model_file: файл для хранения модели
+    texts_num: количество текстов
+    words_num: количество слов, на основании которых
+                    выбирается следующее
+    lowercase: приводить ли к lowercase, default = False
 
     """
 
