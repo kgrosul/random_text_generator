@@ -9,7 +9,6 @@ MAX_WORDS_NUM = 1000  # константа, отвечающая за макс. 
 
 
 def generate(model_file, seed, length, output_file):
-
     """
     функция получает модель, построенную train.py или wikitrain.py и
     на основе ее строит текст.

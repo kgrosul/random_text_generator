@@ -27,9 +27,11 @@ def wiki_train(model_file, texts_num, words_num, lowercase=False):
     for i in range(texts_num):
         file.write(wikipedia.page(wikipedia.search(
             wikipedia.random())[-1]).content)
+
     file.close()
     main_dict = collections.defaultdict(
         lambda: collections.defaultdict(int))
+
     file_train(main_dict, model_file, words_num, lowercase)
     normalize(main_dict)
 

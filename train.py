@@ -124,6 +124,6 @@ if __name__ == '__main__':
                         default=1,
                         help="length of a Markov chain"
                         )
-    args = parser.parse_args()
 
+    args = parser.parse_args()
     train(args.input_dir, args.model, args.words_num, args.lc)
