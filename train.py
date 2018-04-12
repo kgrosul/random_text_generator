@@ -11,8 +11,7 @@ def normalize(main_dict):
     for key1 in main_dict.keys():
         tmp_sum = sum(main_dict[key1].values())
         for key2 in main_dict[key1].keys():
-            main_dict[key1][key2] /= \
-                tmp_sum
+            main_dict[key1][key2] /= tmp_sum
 
 
 def file_train(main_dict, input_file, words_num, lowercase):
