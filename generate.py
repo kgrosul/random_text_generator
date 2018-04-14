@@ -45,15 +45,11 @@ def generate(model_file, seed, length, output_file):
             """
             cur_words = random.choice(list(model_dict.keys()))
         else:
-            tmp_words = []
-            tmp_p = []
-            for key in model_dict[cur_words].keys():
-                tmp_words += [key]
-                tmp_p += [model_dict[cur_words][key]]
+            cur_words = cur_words[1:] + \
+                        (numpy.random.choice(
+                            list(model_dict[cur_words].keys()),
+                            p=list(model_dict[cur_words].values())),)
 
-            cur_words = cur_words[1:] + (numpy.random.choice(tmp_words,
-                                                             p=tmp_p
-                                                             ),)
         text += cur_words[-1] + ' '
         if (i + 1) % MAX_WORDS_NUM == 0:
             """
@@ -68,7 +64,6 @@ def generate(model_file, seed, length, output_file):
 
 
 if __name__ == '__main__':
-    help(generate)
     parser = argparse.ArgumentParser(
         description="Generates texts using model made by train.py."
                     "You can set length of the text, file contains model, "
