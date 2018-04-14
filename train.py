@@ -6,19 +6,16 @@ import re
 import collections
 
 
-def normalize(model_dict):
-    """Функция нормирует вероятности в словаре model_dict"""
-    for prev_words in model_dict.keys():
-        """
-        word_occurrences_sum = количество вхождений в текст
-        пары <набор слов - prev_words><следующее слово - next_word>
-        """
-        word_occurrences_sum = sum(model_dict[prev_words].values())
-        for next_word in model_dict[prev_words].keys():
-            model_dict[prev_words][next_word] /= word_occurrences_sum
+def normalize(main_dict):
+    """нормируем вероятности в словаре main_dict"""
+    for key1 in main_dict.keys():
+        tmp_sum = sum(main_dict[key1].values())
+        for key2 in main_dict[key1].keys():
+            main_dict[key1][key2] /= \
+                tmp_sum
 
 
-def file_train(model_dict, input_file, words_num, lowercase):
+def file_train(main_dict, input_file, words_num, lowercase):
     """
     Функция построчно считывает текст из заданного файла.
     Каждая строка разбивается при необходимосто приводится
@@ -28,9 +25,9 @@ def file_train(model_dict, input_file, words_num, lowercase):
     за подстрокой считается число раз, которое оно встречается
     и добавляется в модель.
 
-    file_train(model_dict, input_file, words_num, lowercase)
+    file_train(main_dict, input_file, words_num, lowercase)
 
-    model_dict: словарь, содержащий модель
+    main_dict: словарь, содержащий модели
     input_file: файл с текстом
     words_num: количество слов,
                     на основании которых выбирается следующее
@@ -54,7 +51,7 @@ def file_train(model_dict, input_file, words_num, lowercase):
             if len(words_list) < words_num:
                 continue
             words_tuple = tuple(words_list)
-            model_dict[words_tuple][next_word] += 1
+            main_dict[words_tuple][next_word] += 1
             words_list.pop(0)
 
     text_file.close()
@@ -80,20 +77,20 @@ def train(input_dir, model_file, words_num, lowercase=False):
 
     """
 
-    model_dict = collections.defaultdict(lambda: collections.defaultdict(int))
+    main_dict = collections.defaultdict(lambda: collections.defaultdict(int))
 
     if input_dir is None:
-        file_train(model_dict, input_dir, words_num, lowercase)
+        file_train(main_dict, input_dir, words_num, lowercase)
     else:
         for file in os.listdir(input_dir):
             if file.endswith(".txt"):
                 input_file = input_dir + "/" + str(file)
-                file_train(model_dict, input_file, words_num, lowercase)
+                file_train(main_dict, input_file, words_num, lowercase)
 
-    normalize(model_dict)
+    normalize(main_dict)
 
     with open(model_file, 'wb') as output:
-        pickle.dump(dict(model_dict), output)
+        pickle.dump(dict(main_dict), output)
 
 
 if __name__ == '__main__':
