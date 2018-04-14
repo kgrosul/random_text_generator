@@ -8,11 +8,10 @@ import collections
 
 def normalize(main_dict):
     """нормируем вероятности в словаре main_dict"""
-    for key1 in main_dict.keys():
-        tmp_sum = sum(main_dict[key1].values())
-        for key2 in main_dict[key1].keys():
-            main_dict[key1][key2] /= \
-                tmp_sum
+    for prev_words in main_dict.keys():
+        word_occurrences_sum = sum(main_dict[prev_words].values())
+        for next_word in main_dict[prev_words].keys():
+            main_dict[prev_words][next_word] /= word_occurrences_sum
 
 
 def file_train(main_dict, input_file, words_num, lowercase):
