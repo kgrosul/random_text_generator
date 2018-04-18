@@ -29,14 +29,14 @@ def wiki_train(model_file, texts_num, words_num, lowercase=False):
             wikipedia.random())[-1]).content)
 
     file.close()
-    main_dict = collections.defaultdict(
+    model_dict = collections.defaultdict(
         lambda: collections.defaultdict(int))
 
-    file_train(main_dict, model_file, words_num, lowercase)
-    normalize(main_dict)
+    file_train(model_dict, model_file, words_num, lowercase)
+    normalize(model_dict)
 
     with open(model_file, 'wb') as output:
-        pickle.dump(dict(main_dict), output)
+        pickle.dump(dict(model_dict), output)
 
 
 if __name__ == '__main__':
