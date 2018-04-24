@@ -5,10 +5,7 @@ import pickle
 import numpy
 
 
-MAX_WORDS_NUM = 1000  # константа, отвечающая за макс. кол-во слов в памяти
-
-
-def generate(model_file, seed, length, output_file):
+def generate(model_file, seed, length, output_file, max_words=64):
     """
     функция получает модель, построенную train.py или wikitrain.py и
     на основе ее строит текст.
@@ -17,11 +14,12 @@ def generate(model_file, seed, length, output_file):
     seed: первое слово
     length: длина текста
     output_file: путь к файлу, в который осуществляется запись текста
+    max_words: максимальное количество слов в памяти
 
     """
     output = sys.stdout
     if output_file is not None:
-        output = open(output_file, 'r')
+        output = open(output_file, 'w')
 
     with open(model_file, 'rb') as model:
         model_dict = pickle.load(model)
@@ -51,7 +49,7 @@ def generate(model_file, seed, length, output_file):
                             p=list(model_dict[cur_words].values())),)
 
         text += cur_words[-1] + ' '
-        if (i + 1) % MAX_WORDS_NUM == 0:
+        if (i + 1) % max_words == 0:
             """
             Если в переменной text уже достаточно много
             слов(а именно MAX_WORDS_NUM), выведем их в файл,
@@ -94,6 +92,11 @@ if __name__ == '__main__':
                         default=None,
                         help="output file"
                         )
+    parser.add_argument("--max-words",
+                        type=int,
+                        help="maximum number of words in memory",
+                        default=64
+                        )
 
     args = parser.parse_args()
-    generate(args.model, args.seed, args.length, args.output)
+    generate(args.model, args.seed, args.length, args.output, args.max_words)
