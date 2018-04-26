@@ -55,7 +55,7 @@ def generate(model_file, seed, length, output_file, max_words=64):
             слов(а именно MAX_WORDS_NUM), выведем их в файл,
             а значение text обнулим
             """
-            output.write(text)
+            output.write(text + '\n')
             text = ''
     output.write(text)
     output.close()
@@ -94,7 +94,7 @@ if __name__ == '__main__':
                         )
     parser.add_argument("--max-words",
                         type=int,
-                        help="maximum number of words in memory",
+                        help="maximum number of words in line",
                         default=64
                         )
 
