@@ -1,6 +1,6 @@
 import wikipedia
-from train import file_train
-from train import normalize
+from src.train import file_train
+from src.train import normalize
 import argparse
 import pickle
 import collections
