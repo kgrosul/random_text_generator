@@ -16,4 +16,4 @@ generate.py - строит текст по заданной модели. Пер
 * python3.6 или выше
 * 1 cpu
 * 512mb RAM
-* requirements.txt
+* [requirements.txt]: /requirements.txt
