@@ -9,7 +9,7 @@ import collections
 def normalize(model_dict):
     """нормируем вероятности в словаре model_dict"""
     for prev_words in model_dict.keys():
-        word_occurrences_sum = sum(model_dict[prev_words].values()) 
+        word_occurrences_sum = sum(model_dict[prev_words].values())
         for next_word in model_dict[prev_words].keys():
             model_dict[prev_words][next_word] /= word_occurrences_sum
 

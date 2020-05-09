@@ -1,4 +1,3 @@
-import pytest
 from src import train
 from copy import deepcopy
 
@@ -27,8 +26,3 @@ def test_normalize_many():
     another_dict = {'a': {'b': 0.25, 'c': 0.25, 'e': 0.25, 'd': 0.25}}
     train.normalize(one_dict)
     assert one_dict == another_dict
-
-
-
-
-
