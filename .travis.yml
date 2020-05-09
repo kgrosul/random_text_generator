@@ -6,7 +6,9 @@ python:
 # command to install dependencies
 install:
   - pip install -r requirements.txt
+  - pip install flake8
+
 # command to run tests
 script:
   - pytest
-  - pycodestyle ./src
+  - flake8 .
