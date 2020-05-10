@@ -14,6 +14,7 @@ generate.py - строит текст по заданной модели. Пер
 ### Building Requirements
 * ubuntu/bionic64
 * python3.6 или выше
+* pip3
 * 1 cpu
 * 512mb RAM
 * [requirements.txt](https://github.com/kgrosul/random_text_generator/blob/develop/requirements.txt "Необязательная подсказка")
